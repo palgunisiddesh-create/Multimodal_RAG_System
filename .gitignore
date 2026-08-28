@@ -1,0 +1,14 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+.env
+*.dll
+*.safetensors
+*.bin
+*.pt
+*.pth
+extracted_images/
+ocr_pages/
+uploads/
+vectorstore/
