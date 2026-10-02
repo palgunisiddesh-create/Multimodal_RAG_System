@@ -307,157 +307,150 @@ section[data-testid="stSidebar"] * {
 
 def home_page():
 
-    st.title("🤖 Multimodal RAG System using FAISS")
-    st.subheader("Artificial Intelligence and Data Science | Final Year Project")
+    # ========================================================
+    # SIMPLE PROJECT POSTER - CREATED DIRECTLY IN app.py
+    # ========================================================
+    # No separate image file is required.
+    # The poster is generated in memory and shown as a JPG-style image.
 
-    st.write("""
-    This project is a multimodal Retrieval-Augmented Generation system that
-    works with PDF documents containing text, scanned content and images.
-    It extracts information, creates embeddings, stores vectors in FAISS,
-    retrieves relevant context, and uses Ollama / Llama 3.2 to generate answers.
-    """)
+    if PIL_AVAILABLE:
+        try:
+            from PIL import ImageDraw, ImageFont
 
-    st.divider()
+            width, height = 1400, 650
+            poster = Image.new("RGB", (width, height), (239, 244, 255))
+            draw = ImageDraw.Draw(poster)
 
-    st.header("📘 Introduction")
-    st.write("""
-    The system combines document processing, OCR, image understanding,
-    vector embeddings, FAISS similarity search and a local Large Language Model.
-    It is designed to provide answers based on information available in an
-    uploaded document rather than relying only on a direct language-model query.
-    """)
+            # Background gradient
+            for y in range(height):
+                r = int(239 - (y / height) * 35)
+                g = int(244 - (y / height) * 45)
+                b = int(255 - (y / height) * 5)
+                draw.line([(0, y), (width, y)], fill=(r, g, b))
 
-    st.header("🎯 Problem Statement")
-    st.info("""
-    Traditional document search may struggle when useful information is spread
-    across normal text, scanned pages and images. This project combines
-    multimodal extraction and semantic retrieval to make document-based question
-    answering more useful and measurable.
-    """)
+            # Decorative panels
+            draw.rounded_rectangle(
+                (45, 45, width - 45, height - 45),
+                radius=35,
+                fill=(255, 255, 255),
+                outline=(99, 102, 241),
+                width=4,
+            )
 
-    st.header("🎯 Objectives")
-    objectives = [
-        "Process PDF documents containing text and images.",
-        "Extract text from normal and scanned PDF pages.",
-        "Perform OCR on scanned content.",
-        "Extract images and generate image descriptions.",
-        "Split extracted text into retrieval-friendly chunks.",
-        "Generate embeddings using Sentence Transformers.",
-        "Store and search vectors using FAISS.",
-        "Generate contextual answers using Ollama / Llama 3.2.",
-        "Compare RAG and Without-RAG responses using measured metrics.",
-        "Visualize the comparison with graphs."
-    ]
-    for i, item in enumerate(objectives, 1):
-        st.write(f"**{i}.** {item}")
+            # Fonts
+            try:
+                title_font = ImageFont.truetype("arialbd.ttf", 58)
+                subtitle_font = ImageFont.truetype("arialbd.ttf", 42)
+                small_font = ImageFont.truetype("arial.ttf", 27)
+                label_font = ImageFont.truetype("arialbd.ttf", 25)
+            except Exception:
+                title_font = ImageFont.load_default()
+                subtitle_font = ImageFont.load_default()
+                small_font = ImageFont.load_default()
+                label_font = ImageFont.load_default()
 
-    st.header("🛠️ Technologies Used")
-    tech_cols = st.columns(4)
-    technologies = [
-        ("🐍", "Python", "Core programming"),
-        ("🌐", "Streamlit", "Web interface"),
-        ("⚡", "FAISS", "Vector similarity search"),
-        ("🤖", "Ollama", "Local LLM"),
-        ("🧠", "Sentence Transformers", "Embeddings"),
-        ("👁️", "BLIP", "Image captioning"),
-        ("🔍", "Tesseract OCR", "Scanned text extraction"),
-        ("📄", "PyMuPDF / pdfplumber", "PDF processing")
-    ]
-    for i, (icon, name, desc) in enumerate(technologies):
-        col = tech_cols[i % 4] if i < 4 else tech_cols[i % 4]
-        if i == 4:
-            tech_cols = st.columns(4)
-            col = tech_cols[i % 4]
-        with col:
-            st.markdown(f"### {icon} {name}")
-            st.caption(desc)
+            # Main title
+            draw.text(
+                (90, 105),
+                "MULTIMODAL RAG SYSTEM",
+                font=title_font,
+                fill=(31, 41, 95),
+            )
+            draw.text(
+                (90, 180),
+                "USING FAISS & OLLAMA",
+                font=subtitle_font,
+                fill=(79, 70, 229),
+            )
 
-    st.header("✨ System Features")
-    feature_cols = st.columns(4)
-    features = [
-        ("📄", "PDF Processing", "Upload and process PDF documents."),
-        ("🔍", "OCR", "Extract text from scanned pages."),
-        ("🖼️", "Image Understanding", "Extract and describe images."),
-        ("⚡", "FAISS Retrieval", "Retrieve relevant vectors quickly."),
-        ("✂️", "Chunking", "Split text for semantic retrieval."),
-        ("🧠", "Embeddings", "Convert content into vectors."),
-        ("🤖", "RAG + LLM", "Generate answers from retrieved context."),
-        ("📊", "Comparison", "Compare RAG and Without-RAG performance.")
-    ]
-    for i, (icon, name, desc) in enumerate(features):
-        if i == 4:
-            feature_cols = st.columns(4)
-        with feature_cols[i % 4]:
-            st.markdown(f"### {icon} {name}")
-            st.caption(desc)
+            draw.text(
+                (92, 255),
+                "AI-powered document understanding and semantic retrieval",
+                font=small_font,
+                fill=(75, 85, 99),
+            )
 
-    st.header("🔄 Complete Project Workflow")
-    workflow = [
-        "📤 1. Upload PDF Document",
-        "📄 2. Extract Text",
-        "🖼️ 3. Extract Images",
-        "🔍 4. OCR Scanned Content",
-        "👁️ 5. Generate Image Captions",
-        "✂️ 6. Create Text Chunks",
-        "🧠 7. Generate Embeddings",
-        "⚡ 8. Store Embeddings in FAISS",
-        "🔎 9. Retrieve Relevant Context",
-        "🤖 10. Generate RAG Answer with Ollama",
-        "💬 11. Generate Without-RAG Answer",
-        "⚖️ 12. Compare the Two Methods",
-        "📊 13. Display Performance Graph"
-    ]
-    for step in workflow:
-        st.write(step)
+            # Simple document + AI visual
+            doc_x, doc_y = 105, 345
+            draw.rounded_rectangle(
+                (doc_x, doc_y, doc_x + 230, doc_y + 190),
+                radius=18,
+                fill=(248, 250, 252),
+                outline=(79, 70, 229),
+                width=5,
+            )
+            draw.polygon(
+                [
+                    (doc_x + 165, doc_y),
+                    (doc_x + 230, doc_y + 65),
+                    (doc_x + 165, doc_y + 65),
+                ],
+                fill=(224, 231, 255),
+            )
+            for yy in (doc_y + 90, doc_y + 120, doc_y + 150):
+                draw.rounded_rectangle(
+                    (doc_x + 30, yy, doc_x + 190, yy + 8),
+                    radius=4,
+                    fill=(129, 140, 248),
+                )
 
-    st.header("⚖️ RAG vs Without-RAG")
-    c1, c2 = st.columns(2)
-    with c1:
-        st.subheader("🔎 RAG")
-        st.write("Question → FAISS Retrieval → Retrieved Context → LLM → Answer")
-    with c2:
-        st.subheader("💬 Without-RAG")
-        st.write("Question → LLM → Answer")
+            # Flow arrows
+            draw.line((350, 440, 495, 440), fill=(99, 102, 241), width=8)
+            draw.polygon([(495, 440), (465, 420), (465, 460)], fill=(99, 102, 241))
 
-    st.header("🚀 System Flow")
-    st.code("""
-Project Home
-    ↓
-Connect to System
-    ↓
-Login
-    ↓
-Admin / User Dashboard
-    ↓
-Upload PDF
-    ↓
-Text + Image Extraction
-    ↓
-OCR + Image Captioning
-    ↓
-Chunking + Embeddings
-    ↓
-FAISS Vector Store
-    ↓
-User Question
-    ↓
-RAG + Without-RAG
-    ↓
-Comparison Metrics
-    ↓
-Graph
-    """, language="text")
+            # AI circle
+            cx, cy = 620, 440
+            draw.ellipse((cx - 82, cy - 82, cx + 82, cy + 82), fill=(224, 231, 255), outline=(79, 70, 229), width=5)
+            draw.ellipse((cx - 48, cy - 35, cx - 28, cy - 15), fill=(79, 70, 229))
+            draw.ellipse((cx + 28, cy - 35, cx + 48, cy - 15), fill=(79, 70, 229))
+            draw.arc((cx - 45, cy - 15, cx + 45, cy + 55), 20, 160, fill=(79, 70, 229), width=6)
+            draw.text((cx - 33, cy + 78), "AI", font=label_font, fill=(31, 41, 95))
 
-    st.header("🚀 Ready to Explore the System?")
-    st.write("Click below to continue to the authentication page.")
+            # Flow to FAISS / Ollama
+            draw.line((710, 440, 855, 440), fill=(99, 102, 241), width=8)
+            draw.polygon([(855, 440), (825, 420), (825, 460)], fill=(99, 102, 241))
+
+            draw.rounded_rectangle((880, 355, 1245, 525), radius=22, fill=(245, 243, 255), outline=(124, 58, 237), width=5)
+            draw.text((930, 385), "FAISS", font=subtitle_font, fill=(109, 40, 217))
+            draw.text((930, 445), "Vector Retrieval", font=small_font, fill=(75, 85, 99))
+
+            # Bottom description
+            draw.text(
+                (90, 575),
+                "PDF • OCR • Embeddings • FAISS • Ollama • Multimodal AI",
+                font=small_font,
+                fill=(55, 65, 81),
+            )
+
+            st.image(poster, use_container_width=True)
+
+        except Exception:
+            st.title("🤖 MULTIMODAL RAG SYSTEM USING FAISS & OLLAMA")
+    else:
+        st.title("🤖 MULTIMODAL RAG SYSTEM USING FAISS & OLLAMA")
+
+    st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
+
+    # ========================================================
+    # CONNECT SYSTEM - EXISTING FUNCTIONALITY UNCHANGED
+    # ========================================================
     left, center, right = st.columns([1, 2, 1])
     with center:
-        if st.button("🚀 Connect to System", use_container_width=True, type="primary"):
+        if st.button(
+            "🚀 Connect System",
+            use_container_width=True,
+            type="primary",
+            key="home_connect_system",
+        ):
             st.session_state.page = "login"
             st.rerun()
 
-    st.divider()
-    st.caption("Multimodal RAG System using FAISS • Artificial Intelligence and Data Science • 2026")
+    st.markdown(
+        "<div style='text-align:center; color:#6b7280; margin-top:16px;'>"
+        "Artificial Intelligence and Data Science • Final Year Project • 2026"
+        "</div>",
+        unsafe_allow_html=True,
+    )
 
 
 # ============================================================
